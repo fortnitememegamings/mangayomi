@@ -1,0 +1,36 @@
+   name: Windows only
+
+   on:
+     workflow_dispatch:
+
+   jobs:
+     windows:
+       runs-on: windows-latest
+       steps:
+         - name: checkout
+           uses: actions/checkout@v4.4.0
+           with:
+             persist-credentials: false
+
+         - name: setup flutter
+           uses: subosito/flutter-action@v2.23.0
+           with:
+             channel: "stable"
+
+         - name: setup rust
+           uses: dtolnay/rust-toolchain@master
+           with:
+             toolchain: stable
+
+         - name: flutter pub get
+           run: flutter pub get
+
+         - name: build windows app
+           run: flutter build windows --release
+
+         - name: upload windows build
+           uses: actions/upload-artifact@v4.6.2
+           with:
+             name: Mangayomi-windows
+             path: build/windows/x64/runner/Release/
+             if-no-files-found: error
