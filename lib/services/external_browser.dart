@@ -230,6 +230,7 @@ class ExternalBrowser {
       await FlutterWebAuth2.authenticate(
         url: authUrl,
         callbackUrlScheme: callbackUrlScheme,
+        options: const FlutterWebAuth2Options(useWebview: false),
       ),
     );
   }
